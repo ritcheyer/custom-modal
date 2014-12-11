@@ -61,21 +61,13 @@ $(document).ready(function(){
             nextThumb   = activeThumb.nextWrap();
 
         if(e.keyCode === TSLA.Keys.ESCAPE) {
-
             drawCurtainsOnTheatre();
 
         } else if(e.keyCode === TSLA.Keys.RIGHT || e.keyCode === TSLA.Keys.DOWN) {
-
-            if (nextThumb.length) {
-                switchActiveThumb(nextThumb);
-            }
+            nextThumb.find('.image-link').trigger('click');
 
         } else if(e.keyCode === TSLA.Keys.LEFT || e.keyCode === TSLA.Keys.UP) {
-
-            if (prevThumb.length) {
-                switchActiveThumb(prevThumb);
-            }
-
+            prevThumb.find('.image-link').trigger('click');
         }
     }
 
@@ -87,13 +79,7 @@ $(document).ready(function(){
             thumbsContainer = $this.closest('.theatre-thumbs'),
             allThumbs = thumbsContainer.children();
 
-        switchActiveThumb($this);
-
-        // remove active state on all thumbs
-        allThumbs.removeClass('thumb-active');
-
-        // make this one active
-        $this.parent('.thumb-item').addClass('thumb-active');
+        switchActiveThumb($this.parent());
 
         setTheatreImage(theatreImgSrc);
     });
@@ -124,10 +110,9 @@ $(document).ready(function(){
         $theatre.addClass('open-curtains');
     }
 
-    // ------------------------------------------------------------
+    // Switch currently active thumb ------------------------------
     function switchActiveThumb(thumb) {
-        thumb.siblings('.thumb-active').removeClass('thumb-active');
-        thumb.addClass('thumb-active');
+        thumb.addClass('thumb-active').siblings('.thumb-active').removeClass('thumb-active');
     }
 });
 
