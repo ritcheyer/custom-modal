@@ -54,14 +54,11 @@ $(document).ready(function(){
         $(document).on('keyup.gallery', keyPressFunc);
     });
 
-   var keyPressFunc = function(event) {
+   var keyPressFunc = function(e) {
 
         var activeThumb = $theatre.find('.thumb-active'),
             prevThumb   = activeThumb.prevWrap(),
             nextThumb   = activeThumb.nextWrap();
-
-            console.log(prevThumb);
-            console.log(nextThumb);
 
         if(e.keyCode === TSLA.Keys.ESCAPE) {
 
@@ -69,10 +66,9 @@ $(document).ready(function(){
 
         } else if(e.keyCode === TSLA.Keys.RIGHT || e.keyCode === TSLA.Keys.DOWN) {
 
-
-
             if (nextThumb.length) {
                 switchActiveThumb(activeThumb, 'next');
+                console.log(nextThumb);
             }
 
         } else if(e.keyCode === TSLA.Keys.LEFT || e.keyCode === TSLA.Keys.UP) {
@@ -119,17 +115,17 @@ $(document).ready(function(){
     function openCurtainsOnTheatre() { $theatre.addClass('open-curtains'); }
 
     // ------------------------------------------------------------
-    // function switchActiveThumb(thumb, direction) {
-    //     direction = (typeof direction !== "undefined") ? direction : '';
+    function switchActiveThumb(thumb, direction) {
+        direction = (typeof direction !== "undefined") ? direction : '';
 
-    //     if(direction === 'next') {
-    //         thumb.removeClass('thumb-active').next('.thumb-item').addClass('thumb-active');
-    //     }
-    //     else if(direction === 'previous') {
-    //         thumb.removeClass('thumb-active').prev('.thumb-item').addClass('thumb-active');
-    //     }
-    //     else {}
-    // }
+        if(direction === 'next') {
+            thumb.removeClass('thumb-active').next('.thumb-item').addClass('thumb-active');
+        }
+        else if(direction === 'previous') {
+            thumb.removeClass('thumb-active').prev('.thumb-item').addClass('thumb-active');
+        }
+        else {}
+    }
 
 
 });
