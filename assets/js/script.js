@@ -50,11 +50,22 @@ $(document).ready(function(){
         setTheatreImage(theatreImgSrc);
 
         openCurtainsOnTheatre();
-
-        bindTheatreKeys();
     });
 
-   var keyPressFunc = function(e) {
+    $('.theatre-thumbs').on('click', '.image-link', function(e) {
+        e.preventDefault();
+
+        var $this = $(this),
+            theatreImgSrc = $this.attr('href'),
+            thumbsContainer = $this.closest('.theatre-thumbs'),
+            allThumbs = thumbsContainer.children();
+
+        switchActiveThumb($this.parent());
+
+        setTheatreImage(theatreImgSrc);
+    });
+
+    var keyPressFunc = function(e) {
 
         var activeThumb = $theatre.find('.thumb-active'),
             prevThumb   = activeThumb.prevWrap(),
@@ -70,19 +81,6 @@ $(document).ready(function(){
             prevThumb.find('.image-link').trigger('click');
         }
     }
-
-    $('.theatre-thumbs').on('click', '.image-link', function(e) {
-        e.preventDefault();
-
-        var $this = $(this),
-            theatreImgSrc = $this.attr('href'),
-            thumbsContainer = $this.closest('.theatre-thumbs'),
-            allThumbs = thumbsContainer.children();
-
-        switchActiveThumb($this.parent());
-
-        setTheatreImage(theatreImgSrc);
-    });
 
     // Bind Keys to the Theatre -----------------------------------
     function bindTheatreKeys() {
@@ -108,6 +106,7 @@ $(document).ready(function(){
     // Open Theatre -----------------------------------------------
     function openCurtainsOnTheatre() {
         $theatre.addClass('open-curtains');
+        bindTheatreKeys();
     }
 
     // Switch currently active thumb ------------------------------
