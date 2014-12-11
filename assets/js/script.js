@@ -47,8 +47,10 @@ $(document).ready(function(){
         var $this = $(this),
             theatreImgSrc = $this.attr('href');
 
+        // --- set the initial theatre image
         setTheatreImage(theatreImgSrc);
 
+        // --- let the show begin!
         openCurtainsOnTheatre();
     });
 
