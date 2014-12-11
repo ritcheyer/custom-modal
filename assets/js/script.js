@@ -51,7 +51,7 @@ $(document).ready(function(){
 
         openCurtainsOnTheatre();
 
-        $(document).on('keyup.gallery', keyPressFunc);
+        bindTheatreKeys();
     });
 
    var keyPressFunc = function(e) {
@@ -67,14 +67,13 @@ $(document).ready(function(){
         } else if(e.keyCode === TSLA.Keys.RIGHT || e.keyCode === TSLA.Keys.DOWN) {
 
             if (nextThumb.length) {
-                switchActiveThumb(activeThumb, 'next');
-                console.log(nextThumb);
+                switchActiveThumb(nextThumb);
             }
 
         } else if(e.keyCode === TSLA.Keys.LEFT || e.keyCode === TSLA.Keys.UP) {
 
             if (prevThumb.length) {
-                switchActiveThumb(activeThumb, 'previous');
+                switchActiveThumb(prevThumb);
             }
 
         }
@@ -89,6 +88,7 @@ $(document).ready(function(){
             allThumbs = thumbsContainer.children();
 
         switchActiveThumb($this);
+
         // remove active state on all thumbs
         allThumbs.removeClass('thumb-active');
 
@@ -98,36 +98,37 @@ $(document).ready(function(){
         setTheatreImage(theatreImgSrc);
     });
 
-    // ------------------------------------------------------------
-    function unbindTheatreKeys() {
-        $(document).unbind( 'keyup.gallery-container' );
+    // Bind Keys to the Theatre -----------------------------------
+    function bindTheatreKeys() {
+        $(document).on('keyup.gallery', keyPressFunc);
     }
 
-    // ------------------------------------------------------------
+    // Unbind Keys to the Theatre ---------------------------------
+    function unbindTheatreKeys() {
+        $(document).off('keyup.gallery', keyPressFunc);
+    }
+
+    // Swap Theatre image -----------------------------------------
     function setTheatreImage(img) {
         theatreImage.attr('src', img);
     }
 
-    // ------------------------------------------------------------
-    function drawCurtainsOnTheatre() { $theatre.removeClass('open-curtains'); unbindTheatreKeys(); }
-
-    // ------------------------------------------------------------
-    function openCurtainsOnTheatre() { $theatre.addClass('open-curtains'); }
-
-    // ------------------------------------------------------------
-    function switchActiveThumb(thumb, direction) {
-        direction = (typeof direction !== "undefined") ? direction : '';
-
-        if(direction === 'next') {
-            thumb.removeClass('thumb-active').next('.thumb-item').addClass('thumb-active');
-        }
-        else if(direction === 'previous') {
-            thumb.removeClass('thumb-active').prev('.thumb-item').addClass('thumb-active');
-        }
-        else {}
+    // Close Theatre ----------------------------------------------
+    function drawCurtainsOnTheatre() {
+        $theatre.removeClass('open-curtains');
+        unbindTheatreKeys();
     }
 
+    // Open Theatre -----------------------------------------------
+    function openCurtainsOnTheatre() {
+        $theatre.addClass('open-curtains');
+    }
 
+    // ------------------------------------------------------------
+    function switchActiveThumb(thumb) {
+        thumb.siblings('.thumb-active').removeClass('thumb-active');
+        thumb.addClass('thumb-active');
+    }
 });
 
 // ------------------------------------------------------------
