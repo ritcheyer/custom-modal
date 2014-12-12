@@ -29,127 +29,6 @@ OBJ.Keys = {
     RETURN: 13,
     TAB: 9
 };
-
-$(document).ready(function(){
-
-    // --- set up variables
-    var $theatre     = $('.image-theatre'),
-        $gallery     = $('.gallery-container'),
-        theatreImage = $theatre.find('.theatre-image');
-
-    var handleImageClick = function(e){
-        e.preventDefault();
-
-        var $this = $(this),
-            theatreImgSrc = $this.attr('href'),
-            thumbsContainer = $this.closest('.theatre-thumbs'),
-            allThumbs = thumbsContainer.children();
-
-        switchActiveThumb($this.parent());
-
-        setTheatreImage(theatreImgSrc);
-    };
-
-    var handleKeyPress = function(e) {
-
-        var activeThumb = $theatre.find('.thumb-active'),
-            prevThumb   = activeThumb.prevWrap(),
-            nextThumb   = activeThumb.nextWrap();
-
-        if(e.keyCode === OBJ.Keys.ESCAPE) {
-            drawCurtainsOnTheatre();
-
-        } else if(e.keyCode === OBJ.Keys.RIGHT || e.keyCode === OBJ.Keys.DOWN) {
-            handleImageClick.call(nextThumb.find('.image-link'), e);
-            // nextThumb.find('.image-link').trigger('click');
-
-        } else if(e.keyCode === OBJ.Keys.LEFT || e.keyCode === OBJ.Keys.UP) {
-            handleImageClick.call(prevThumb.find('.image-link'), e);
-            // prevThumb.find('.image-link').trigger('click');
-        }
-    };
-
-    // Bind Keys to the Theatre -----------------------------------
-    function bindTheatreKeys() {
-        $(document).on('keyup.gallery', handleKeyPress);
-    }
-
-    // Unbind Keys to the Theatre ---------------------------------
-    function unbindTheatreKeys() {
-        $(document).off('keyup.gallery', handleKeyPress);
-    }
-
-    // Clone thumbnails to theatre --------------------------------
-    function setThumbnails(element) {
-        element.clone().appendTo($theatre.find('.thumbs-container'));
-    }
-
-    // Remove thumbnails from theatre -----------------------------
-    function removeThumbnails() {
-        $theatre.find('.thumbs-container .theatre-thumbs').remove();
-    }
-
-    // Swap Theatre image -----------------------------------------
-    function setTheatreImage(img) {
-        theatreImage.attr('src', img);
-    }
-
-    // Close Theatre ----------------------------------------------
-    function drawCurtainsOnTheatre() {
-        $theatre.removeClass('open-curtains');
-        removeThumbnails();
-        unbindTheatreKeys();
-    }
-
-    // Open Theatre -----------------------------------------------
-    function openCurtainsOnTheatre() {
-        $theatre.addClass('open-curtains');
-        bindTheatreKeys();
-    }
-
-    // Switch currently active thumb ------------------------------
-    function switchActiveThumb(thumb) {
-        thumb.addClass('thumb-active').siblings('.thumb-active').removeClass('thumb-active');
-    }
-
-
-    $('.image-theatre').on('click', '.theatre-close', function(e) {
-        drawCurtainsOnTheatre();
-    });
-
-    $gallery.on('click', '.image-link', function(e) {
-        e.preventDefault();
-
-        // --- set up variables
-        var $this = $(this),
-            theatreImgSrc = $this.attr('href'),
-            thumbnailElement = $this.closest('.image-container').siblings('.thumbs-container').children('.theatre-thumbs');
-
-        // --- clone the thumbnail markup into the theatre
-        setThumbnails(thumbnailElement);
-
-        // --- set the initial theatre image
-        setTheatreImage(theatreImgSrc);
-
-        // --- let the show begin!
-        openCurtainsOnTheatre();
-
-        // --- activate thumbnail clicking
-        $('.theatre-thumbs').on('click', '.image-link', handleImageClick);
-
-    });
-
-});
-
-$(window).on('load', function() {
-    var images = $('.gallery-container .image-link');
-
-        images.map(function() {
-            return $(this).attr('href');
-        }).preload();
-});
-
-// ------------------------------------------------------------
 (function($) {
     $.fn.nextWrap = function() {
         var $next = this.next();
@@ -166,4 +45,118 @@ $(window).on('load', function() {
             $('<img/>')[0].src = this;
         });
     }
+
+    $(document).ready(function(){
+    
+        // --- set up variables
+        var $theatre     = $('.image-theatre'),
+            $gallery     = $('.gallery-container'),
+            $theatreImage = $theatre.find('.theatre-image');
+    
+        var handleImageClick = function(e){
+            e.preventDefault();
+    
+            var $this = $(this),
+                theatreImgSrc = $this.attr('href'),
+                thumbsContainer = $this.closest('.theatre-thumbs'),
+                allThumbs = thumbsContainer.children();
+    
+            switchActiveThumb($this.parent());
+    
+            setTheatreImage(theatreImgSrc);
+        };
+    
+        var handleKeyPress = function(e) {
+    
+            var activeThumb = $theatre.find('.thumb-active'),
+                prevThumb   = activeThumb.prevWrap(),
+                nextThumb   = activeThumb.nextWrap();
+    
+            if(e.keyCode === OBJ.Keys.ESCAPE) {
+                drawCurtainsOnTheatre();
+    
+            } else if(e.keyCode === OBJ.Keys.RIGHT || e.keyCode === OBJ.Keys.DOWN) {
+                handleImageClick.call(nextThumb.find('.image-link'), e);
+
+            } else if(e.keyCode === OBJ.Keys.LEFT || e.keyCode === OBJ.Keys.UP) {
+                handleImageClick.call(prevThumb.find('.image-link'), e);
+            }
+        };
+    
+        // Bind Keys to the Theatre -----------------------------------
+        function bindTheatreKeys() {
+            $(document).on('keyup.gallery', handleKeyPress);
+        }
+    
+        // Unbind Keys to the Theatre ---------------------------------
+        function unbindTheatreKeys() {
+            $(document).off('keyup.gallery', handleKeyPress);
+        }
+    
+        // Clone thumbnails to theatre --------------------------------
+        function setThumbnails(element) {
+            element.clone().appendTo($theatre.find('.thumbs-container'));
+        }
+    
+        // Remove thumbnails from theatre -----------------------------
+        function removeThumbnails() {
+            $theatre.find('.thumbs-container .theatre-thumbs').remove();
+        }
+    
+        // Swap Theatre image -----------------------------------------
+        function setTheatreImage(img) {
+            theatreImage.attr('src', img);
+        }
+    
+        // Close Theatre ----------------------------------------------
+        function drawCurtainsOnTheatre(e) {
+            $theatre.removeClass('open-curtains');
+            removeThumbnails();
+            unbindTheatreKeys();
+        }
+    
+        // Open Theatre -----------------------------------------------
+        function openCurtainsOnTheatre() {
+            $theatre.addClass('open-curtains');
+            bindTheatreKeys();
+        }
+    
+        // Switch currently active thumb ------------------------------
+        function switchActiveThumb(thumb) {
+            thumb.addClass('thumb-active').siblings('.thumb-active').removeClass('thumb-active');
+        }
+    
+        $('.image-theatre').on('click', '.theatre-close', drawCurtainsOnTheatre);
+    
+        $gallery.on('click', '.image-link', function(e) {
+            e.preventDefault();
+    
+            // --- set up variables
+            var $this = $(this),
+                theatreImgSrc = $this.attr('href'),
+                thumbnailElement = $this.closest('.image-container').siblings('.thumbs-container').children('.theatre-thumbs');
+    
+            // --- clone the thumbnail markup into the theatre
+            setThumbnails(thumbnailElement);
+    
+            // --- set the initial theatre image
+            setTheatreImage(theatreImgSrc);
+    
+            // --- let the show begin!
+            openCurtainsOnTheatre();
+    
+            // --- activate thumbnail clicking
+            $('.theatre-thumbs').on('click', '.image-link', handleImageClick);
+    
+        });
+    
+    });
+    
+    $(window).on('load', function() {
+        var images = $('.gallery-container .image-link');
+    
+            images.map(function() {
+                return $(this).attr('href');
+            }).preload();
+    });
 })(jQuery);
