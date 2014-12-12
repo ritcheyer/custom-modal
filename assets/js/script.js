@@ -159,8 +159,7 @@ $(document).ready(function(){
     })(jQuery);
 
 });
-
-window.onload = function() {
+$(window).on('load', function() {
     var images = $('.gallery-container').find('.image-link'),
         preloadImagesArray = [];
 
@@ -168,4 +167,4 @@ window.onload = function() {
         preloadImagesArray.push($(images[key]).attr('href'));
         $(preloadImagesArray).preload();
     });
-}
+});
