@@ -1,0 +1,8 @@
+
+// ------ HELPER CLASSES ------
+.hidden {
+    display: none;
+}
+
+.fade-in { @include fade-in; }
+.fade-out { @include fade-out; }

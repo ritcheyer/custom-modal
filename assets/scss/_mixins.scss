@@ -1,0 +1,9 @@
+// ------ MIXINS ------
+@mixin fade-out($transition-property: opacity, $transition-duration: .5s, $transition-timing-function: ease-in-out) {
+    @include single-transition($transition-property, $transition-duration, $transition-timing-function);
+    opacity: 0;
+}
+@mixin fade-in($transition-property: opacity, $transition-duration: .5s, $transition-timing-function: ease-in-out) {
+    @include single-transition($transition-property, $transition-duration, $transition-timing-function);
+    opacity: 1;
+}
