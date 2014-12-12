@@ -139,32 +139,31 @@ $(document).ready(function(){
 
     });
 
-    // ------------------------------------------------------------
-    (function($) {
-        $.fn.nextWrap = function() {
-            var $next = this.next();
-            return ($next.length === 0) ? this.siblings().first() : $next;
-        };
-
-        $.fn.prevWrap = function() {
-            var $prev = this.prev();
-            return ($prev.length === 0) ? this.siblings().last() : $prev;
-        };
-
-        $.fn.preload = function() {
-            this.each(function(){
-                $('<img/>')[0].src = this;
-            });
-        }
-    })(jQuery);
-
 });
+
 $(window).on('load', function() {
-    var images = $('.gallery-container').find('.image-link'),
-        preloadImagesArray = [];
+    var images = $('.gallery-container .image-link');
 
-    $.each(images, function(key, value) {
-        preloadImagesArray.push($(images[key]).attr('href'));
-        $(preloadImagesArray).preload();
-    });
+        images.map(function() {
+            return $(this).attr('href');
+        }).preload();
 });
+
+// ------------------------------------------------------------
+(function($) {
+    $.fn.nextWrap = function() {
+        var $next = this.next();
+        return ($next.length === 0) ? this.siblings().first() : $next;
+    };
+
+    $.fn.prevWrap = function() {
+        var $prev = this.prev();
+        return ($prev.length === 0) ? this.siblings().last() : $prev;
+    };
+
+    $.fn.preload = function() {
+        this.each(function(){
+            $('<img/>')[0].src = this;
+        });
+    }
+})(jQuery);
