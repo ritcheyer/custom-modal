@@ -105,7 +105,7 @@ OBJ.Keys = {
     
         // Swap Theatre image -----------------------------------------
         function setTheatreImage(img) {
-            theatreImage.attr('src', img);
+            $theatreImage.attr('src', img);
         }
     
         // Close Theatre ----------------------------------------------
