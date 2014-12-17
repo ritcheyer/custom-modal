@@ -26,7 +26,16 @@ SAMPLE MARKUP
 @import "mixins";
 @import "helpers";
 
-.image-theatre {
+
+.theatre-open {
+    overflow: hidden;
+
+}
+
+.modal-theatre {
+    @include transform(scale(0.75));
+    @include transition-duration(300ms);
+
     position: fixed;
     bottom: 0;
     left: 0;
@@ -36,33 +45,45 @@ SAMPLE MARKUP
     background-color: #fff;
     z-index: -1;
 
-    -webkit-transform: scale(0.75);
-    -moz-transform: scale(0.75);
-    transform: scale(0.75);
-
-    -webkit-transition: 300ms;
-    -moz-transition: 300ms;
-    transition: 300ms;
+    .thumb-image {
+        float: left;
+        max-width: 80px;
+    }
 }
 
 .open-curtains {
-    opacity: 1;
-    -webkit-transform: scale(1);
-    -moz-transform: scale(1);
-    transform: scale(1);
+    @include transform(scale(1));
+    @include transition-duration(400ms);
 
-    -webkit-transition: 400ms;
-    -moz-transition: 400ms;
-    transition: 400ms;
+    opacity: 1;
     display: block;
     z-index: 999;
 }
 .theatre-close {
-    background-color: #fff;
-    font-family: "Courier New";
-    padding: 10px;
-    margin: 10px;
+    // @include scale(top, 15px);
+    top: 0.9375rem;
+    // @include scale(right, 15px);
+    right: 0.9375rem;
+    // @include scale(width, 15px);
+    width: 0.9375rem;
+    // @include scale(height, 15px);
+    height: 0.9375rem;
+
+    margin: 0;
+    padding: 0;
+    min-width: 0;
+    position: absolute;
+    z-index: 1;
+
     cursor: pointer;
+    // @include fontsize-rem(21px);
+    font-size: 1.3125rem;
+    color: #cccccc;
+
+    border: 0;
+
+    background: url(http://d7.teslamotors.com/sites/all/themes/custom/tesla_theme/assets/img/icon-close.svg) no-repeat center;
+    background-size: contain;
 }
 .theatre-image {
     bottom: 0;
@@ -93,5 +114,14 @@ SAMPLE MARKUP
     border-color: #fff;
     outline-color:  #c60017;
 }
-.thumb-image { float: left; }
 .thumb-link  { display: block; }
+
+.filmstrip-container {
+    clear: both;
+    overflow: hidden;
+    display: table;
+    border-spacing: 1rem;
+    .image-container {
+        display: table-cell;
+    }
+}
